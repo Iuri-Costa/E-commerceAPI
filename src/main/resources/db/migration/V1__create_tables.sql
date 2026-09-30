@@ -16,10 +16,28 @@ CREATE TABLE products (
     id UUID PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
-    price NUMERIC(10,2) NOT NULL,
-    stock int NOT NULL,
+    price NUMERIC(10,2) NOT NULL CHECK (price >= 0),
+    stock int NOT NULL CHECK (stock >= 0),
     category_id UUID NOT NULL,
     created_at TIMESTAMPTZ NOT NULL,
     updated_at TIMESTAMPTZ NOT NULL,
-    CONSTRAINT fk_products_categories (category_id) REFERENCES categories(id)
+    CONSTRAINT fk_products_categories FOREIGN KEY (category_id) REFERENCES categories(id)
+);
+
+CREATE TABLE carts (
+    id UUID PRIMARY KEY,
+    user_id UUID NOT NULL UNIQUE,
+    created_at TIMESTAMPTZ NOT NULL,
+    updated_at TIMESTAMPTZ NOT NULL
+);
+
+CREATE TABLE cart_items (
+    id UUID PRIMARY KEY,
+    cart_id UUID NOT NULL,
+    product_id UUID NOT NULL,
+    quantity int NOT NULL CHECK (quantity > 0),
+    unit_price NUMERIC(10, 2) NOT NULL,
+    CONSTRAINT fk_cart_items_carts FOREIGN KEY (cart_id) REFERENCES carts(id),
+    CONSTRAINT fk_cart_items_products FOREIGN KEY (product_id) REFERENCES products(id),
+    CONSTRAINT UNIQUE (product_id, cart_id)
 );

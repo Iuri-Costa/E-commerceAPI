@@ -46,6 +46,9 @@ public class Product {
         this.name = name;
         this.description = description;
 
+        if (price == null)
+            throw new IllegalArgumentException("Price can't be null");
+
         if (price.compareTo(BigDecimal.ZERO) < 0)
             throw new IllegalArgumentException("Price can't be negative");
 
@@ -60,5 +63,9 @@ public class Product {
             throw new IllegalArgumentException("Category can't be null");
 
         this.category = category;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
     }
 }

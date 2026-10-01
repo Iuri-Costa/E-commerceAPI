@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ecommerceAPI_postgres
+    environment:
+      POSTGRES_DB: ${KEY_POSTGRES_BD}
+      POSTGRES_USER: ${KEY_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${KEY_POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "${KEY_POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${KEY_POSTGRES_USER} -d ${KEY_POSTGRES_BD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  postgres_data:
+    driver: local

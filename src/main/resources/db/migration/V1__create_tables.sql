@@ -39,7 +39,7 @@ CREATE TABLE cart_items (
     unit_price NUMERIC(10,2) NOT NULL,
     CONSTRAINT fk_cart_items_carts FOREIGN KEY (cart_id) REFERENCES carts(id),
     CONSTRAINT fk_cart_items_products FOREIGN KEY (product_id) REFERENCES products(id),
-    CONSTRAINT UNIQUE (product_id, cart_id)
+    CONSTRAINT uk_cart_items_product_cart UNIQUE (product_id, cart_id)
 );
 
 CREATE TABLE orders (

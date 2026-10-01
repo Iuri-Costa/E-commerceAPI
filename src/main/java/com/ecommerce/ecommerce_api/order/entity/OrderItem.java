@@ -45,8 +45,6 @@ public class OrderItem {
 
         this.quantity = quantity;
 
-        // Se um produto tiver seu preço alterado enquanto estiver no carrinho de um usuário,
-        // o checkout deve usar o preço antigo que estava no carrinho ou o novo preço do produto?
         this.price = product.getPrice();
     }
 

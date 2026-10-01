@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:16-alpine
+    image: postgres:17
     container_name: ecommerceAPI_postgres
     environment:
       POSTGRES_DB: ${KEY_POSTGRES_BD}

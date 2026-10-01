@@ -2,10 +2,13 @@ spring:
   application:
     name: ecommerce-api
 
+  config:
+    import: optional:file:.env[.properties]
+
   datasource:
-    url: ${DATABASE_URL}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+    url: jdbc:postgresql://localhost:${KEY_POSTGRES_PORT}/${KEY_POSTGRES_BD}
+    username: ${KEY_POSTGRES_USER}
+    password: ${KEY_POSTGRES_PASSWORD}
 
   jpa:
     hibernate:

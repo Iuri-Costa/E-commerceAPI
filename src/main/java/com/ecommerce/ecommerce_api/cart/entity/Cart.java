@@ -22,7 +22,7 @@ public class Cart {
     private User user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<CartItem> items = new ArrayList<>();
+    private List<CartItem> items = new ArrayList<>();
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -39,6 +39,15 @@ public class Cart {
             throw new IllegalArgumentException("User can't be null");
 
         this.user = user;
+    }
+
+    public void AddItem(CartItem item) {
+        if (item == null)
+            throw new IllegalArgumentException("Item can't be null");
+
+        this.items.add(item);
+
+        item.setCart(this);
     }
 }
 

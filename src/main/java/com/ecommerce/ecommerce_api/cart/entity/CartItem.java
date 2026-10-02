@@ -47,4 +47,8 @@ public class CartItem {
 
         this.unitPrice = product.getPrice();
     }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
 }

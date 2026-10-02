@@ -44,7 +44,16 @@ public class Order {
         this.user = user;
     }
 
-    public void calculateTotalAmount() {
+    private void addItem(OrderItem item) {
+        if (item == null)
+            throw new IllegalArgumentException("Item can't be null");
+
+        this.items.add(item);
+
+        item.setOrder(this);
+    }
+
+    private void calculateTotalAmount() {
         BigDecimal totalAmount = items.stream()
                 .map(OrderItem::calculateTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);

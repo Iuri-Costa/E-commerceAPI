@@ -53,7 +53,7 @@ public class Order {
         item.setOrder(this);
     }
 
-    private void calculateTotalAmount() {
+    public void calculateTotalAmount() {
         BigDecimal totalAmount = items.stream()
                 .map(OrderItem::calculateTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);

@@ -43,32 +43,10 @@ public class Product {
     protected Product() {}
 
     public Product(String name, String description, BigDecimal price, int stock, Category category) {
-        if (name == null)
-            throw new IllegalArgumentException("name can't be null");
-
         this.name = name;
-
-        if (description == null)
-            throw new IllegalArgumentException("Description can't be null");
-
         this.description = description;
-
-        if (price == null)
-            throw new IllegalArgumentException("Price can't be null");
-
-        if (price.compareTo(BigDecimal.ZERO) < 0)
-            throw new IllegalArgumentException("Price can't be negative");
-
         this.price = price;
-
-        if (stock < 0)
-            throw new  IllegalArgumentException("Stock can't be negative");
-
         this.stock = stock;
-
-        if (category == null)
-            throw new IllegalArgumentException("Category can't be null");
-
         this.category = category;
     }
 

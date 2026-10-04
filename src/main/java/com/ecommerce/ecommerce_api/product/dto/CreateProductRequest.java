@@ -11,9 +11,9 @@ public record CreateProductRequest(
         @NotBlank
         String name,
 
-        @NotNull
         String description,
 
+        @NotNull
         @PositiveOrZero
         BigDecimal price,
 

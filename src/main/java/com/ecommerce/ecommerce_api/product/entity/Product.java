@@ -43,7 +43,14 @@ public class Product {
     protected Product() {}
 
     public Product(String name, String description, BigDecimal price, int stock, Category category) {
+        if (name == null)
+            throw new IllegalArgumentException("name can't be null");
+
         this.name = name;
+
+        if (description == null)
+            throw new IllegalArgumentException("Description can't be null");
+
         this.description = description;
 
         if (price == null)

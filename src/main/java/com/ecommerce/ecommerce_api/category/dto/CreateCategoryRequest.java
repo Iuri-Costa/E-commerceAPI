@@ -6,4 +6,8 @@ public record CreateCategoryRequest(
         @NotBlank
         String name
 ) {
+        public CreateCategoryRequest {
+                if (name != null)
+                        name = name.trim().toUpperCase();
+        }
 }

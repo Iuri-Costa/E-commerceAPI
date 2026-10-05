@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce_api.product.entity;
 
 import com.ecommerce.ecommerce_api.category.entity.Category;
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "products")
+@Getter
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -28,7 +30,7 @@ public class Product {
     @Column(nullable = false)
     private int stock;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
@@ -48,9 +50,5 @@ public class Product {
         this.price = price;
         this.stock = stock;
         this.category = category;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
     }
 }

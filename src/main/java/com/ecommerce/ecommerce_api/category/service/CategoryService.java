@@ -16,8 +16,9 @@ public class CategoryService {
 
     public CategoryResponse create(CreateCategoryRequest request) {
         repository.findByName(request.name())
-                .ifPresent(category ->
-                        new IllegalStateException("Category already exists with Name: " + request.name()));
+                .ifPresent(category -> {
+                        throw new IllegalStateException("Category already exists with Name: " + request.name());
+                });
 
         Category category = new Category(request.name());
 

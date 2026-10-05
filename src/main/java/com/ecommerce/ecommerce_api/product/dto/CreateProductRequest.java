@@ -1,11 +1,11 @@
 package com.ecommerce.ecommerce_api.product.dto;
 
-import com.ecommerce.ecommerce_api.category.entity.Category;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public record CreateProductRequest(
         @NotBlank
@@ -21,6 +21,6 @@ public record CreateProductRequest(
         int stock,
 
         @NotNull
-        Category category
+        UUID categoryId
 ) {
 }

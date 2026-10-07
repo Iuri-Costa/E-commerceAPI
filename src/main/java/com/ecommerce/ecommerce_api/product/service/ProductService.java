@@ -6,8 +6,12 @@ import com.ecommerce.ecommerce_api.product.dto.CreateProductRequest;
 import com.ecommerce.ecommerce_api.product.dto.ProductResponse;
 import com.ecommerce.ecommerce_api.product.entity.Product;
 import com.ecommerce.ecommerce_api.product.repository.ProductRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,5 +36,21 @@ public class ProductService {
         product = productRepository.saveAndFlush(product);
 
         return ProductResponse.toResponse(product);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ProductResponse> list(int page, int limit, String search) {
+        page = Math.max(page - 1, 0);
+        limit = Math.min(Math.max(limit, 1), 50);
+
+        Pageable pageable = PageRequest.of(page, limit, Sort.by("name").ascending());
+
+        search = (search != null && !search.isBlank()) ? search.trim() : null;
+
+        Page<Product> products = (search == null)
+                ? productRepository.findAll(pageable)
+                : productRepository.findByNameContainingIgnoreCase(search, pageable);
+
+        return products.map(ProductResponse::toResponse);
     }
 }

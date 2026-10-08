@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -52,5 +54,15 @@ public class ProductService {
                 : productRepository.findByNameContainingIgnoreCase(search, pageable);
 
         return products.map(ProductResponse::toResponse);
+    }
+
+    @Transactional
+    public void delete(UUID id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with Id: " + id));
+
+        product.deleteProduct();
+
+        productRepository.save(product);
     }
 }

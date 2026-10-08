@@ -58,4 +58,8 @@ public class Product {
         this.stock = stock;
         this.category = category;
     }
+
+    public void deleteProduct() {
+        this.active = false;
+    }
 }

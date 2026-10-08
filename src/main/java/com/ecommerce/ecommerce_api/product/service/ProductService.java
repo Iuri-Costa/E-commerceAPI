@@ -50,8 +50,8 @@ public class ProductService {
         search = (search != null && !search.isBlank()) ? search.trim() : null;
 
         Page<Product> products = (search == null)
-                ? productRepository.findAll(pageable)
-                : productRepository.findByNameContainingIgnoreCase(search, pageable);
+                ? productRepository.findAllByActiveTrue(pageable)
+                : productRepository.findByNameContainingIgnoreCaseAndActiveTrue(search, pageable);
 
         return products.map(ProductResponse::toResponse);
     }

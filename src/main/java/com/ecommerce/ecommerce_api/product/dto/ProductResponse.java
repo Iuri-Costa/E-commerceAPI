@@ -1,6 +1,5 @@
 package com.ecommerce.ecommerce_api.product.dto;
 
-import com.ecommerce.ecommerce_api.category.entity.Category;
 import com.ecommerce.ecommerce_api.product.entity.Product;
 
 import java.math.BigDecimal;

@@ -59,6 +59,20 @@ public class Product {
         this.category = category;
     }
 
+    public void updateProduct(String name, String description, BigDecimal price, int stock, Category category, long requestVersion) {
+        if (!this.active)
+            throw new IllegalStateException("This product is inactive and cannot be updated.");
+
+        if (this.version != requestVersion)
+            throw new IllegalStateException("Conflict detected: This product was modified by another user. Please refresh the page and try again.");
+
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+        this.category = category;
+    }
+
     public void deleteProduct() {
         this.active = false;
     }

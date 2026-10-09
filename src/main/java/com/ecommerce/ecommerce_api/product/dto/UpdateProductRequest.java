@@ -7,7 +7,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public record CreateProductRequest(
+public record UpdateProductRequest(
         @NotBlank
         String name,
 
@@ -22,6 +22,9 @@ public record CreateProductRequest(
         Integer stock,
 
         @NotNull
-        UUID categoryId
+        UUID categoryId,
+
+        @NotNull
+        Long version
 ) {
 }

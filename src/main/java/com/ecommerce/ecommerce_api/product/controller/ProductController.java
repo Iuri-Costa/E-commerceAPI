@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce_api.product.controller;
 
 import com.ecommerce.ecommerce_api.product.dto.CreateProductRequest;
 import com.ecommerce.ecommerce_api.product.dto.ProductResponse;
+import com.ecommerce.ecommerce_api.product.dto.UpdateProductRequest;
 import com.ecommerce.ecommerce_api.product.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -34,6 +35,14 @@ public class ProductController {
             @RequestParam(required = false) String search
     ) {
         Page<ProductResponse> response = service.list(page, limit, search);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductResponse> update(@PathVariable UUID id,
+                                                  @RequestBody @Valid UpdateProductRequest request) {
+        ProductResponse response = service.update(id, request);
 
         return ResponseEntity.ok(response);
     }

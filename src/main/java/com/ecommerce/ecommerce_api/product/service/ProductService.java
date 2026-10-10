@@ -4,6 +4,7 @@ import com.ecommerce.ecommerce_api.category.entity.Category;
 import com.ecommerce.ecommerce_api.category.repository.CategoryRepository;
 import com.ecommerce.ecommerce_api.product.dto.CreateProductRequest;
 import com.ecommerce.ecommerce_api.product.dto.ProductResponse;
+import com.ecommerce.ecommerce_api.product.dto.UpdateProductRequest;
 import com.ecommerce.ecommerce_api.product.entity.Product;
 import com.ecommerce.ecommerce_api.product.repository.ProductRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -23,7 +26,7 @@ public class ProductService {
     @Transactional
     public ProductResponse create(CreateProductRequest request) {
         Category category = categoryRepository.findById(request.categoryId())
-                .orElseThrow(() -> new RuntimeException("Category not found with Id: " + request.categoryId()));
+                .orElseThrow(() -> new RuntimeException("Category not found."));
 
         Product product = new Product(
                 request.name(),
@@ -48,9 +51,41 @@ public class ProductService {
         search = (search != null && !search.isBlank()) ? search.trim() : null;
 
         Page<Product> products = (search == null)
-                ? productRepository.findAll(pageable)
-                : productRepository.findByNameContainingIgnoreCase(search, pageable);
+                ? productRepository.findAllByActiveTrue(pageable)
+                : productRepository.findByNameContainingIgnoreCaseAndActiveTrue(search, pageable);
 
         return products.map(ProductResponse::toResponse);
+    }
+
+    @Transactional
+    public ProductResponse update(UUID id, UpdateProductRequest request) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found."));
+
+        Category category = categoryRepository.findById(request.categoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found."));
+
+        product.updateProduct(
+                request.name(),
+                request.description(),
+                request.price(),
+                request.stock(),
+                category,
+                request.version()
+        );
+
+        product = productRepository.saveAndFlush(product);
+
+        return ProductResponse.toResponse(product);
+    }
+
+    @Transactional
+    public void delete(UUID id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found."));
+
+        product.deleteProduct();
+
+        productRepository.save(product);
     }
 }
